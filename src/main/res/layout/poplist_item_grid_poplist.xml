@@ -11,7 +11,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/shape_grid_item"
+            android:background="@drawable/poplist_shape_grid_item"
             android:textSize="17sp"
 
             android:padding="10dp"
@@ -22,7 +22,7 @@
             android:id="@+id/iv_grid_arrow"
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:background="@drawable/corner_arrow"
+            android:background="@drawable/poplist_corner_arrow"
             android:layout_marginTop="-2dp"
             android:layout_marginRight="-2dp"
             android:layout_alignParentRight="true"/>

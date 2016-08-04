@@ -17,7 +17,7 @@ public class GridPopList extends PopList {
 
     private GridView mGridView;
     public GridPopList(Context context){
-        super(context, R.layout.grid_poplist);
+        super(context, R.layout.poplist_grid_poplist);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class GridPopList extends PopList {
             ViewHolder viewHolder = null;
             if (convertView == null){
                 viewHolder = new ViewHolder();
-                convertView = LayoutInflater.from(mContext).inflate(R.layout.item_grid_poplist,null);
+                convertView = LayoutInflater.from(mContext).inflate(R.layout.poplist_item_grid_poplist,null);
                 viewHolder.title = (TextView) convertView.findViewById(R.id.tv_item_grid_poplist);
                 viewHolder.imageViewArrow = (ImageView) convertView.findViewById(R.id.iv_grid_arrow);
                 convertView.setTag(viewHolder);
@@ -50,11 +50,11 @@ public class GridPopList extends PopList {
 
             if (mData.get(position).equals(mFocusData)){
                 viewHolder.title.setTextColor(mFocusColor);
-                viewHolder.title.setBackgroundResource(R.drawable.shape_grid_item_focus);
+                viewHolder.title.setBackgroundResource(R.drawable.poplist_shape_grid_item_focus);
                 viewHolder.imageViewArrow.setVisibility(View.VISIBLE);
             }else{
                 viewHolder.title.setTextColor(Color.BLACK);
-                viewHolder.title.setBackgroundResource(R.drawable.shape_grid_item);
+                viewHolder.title.setBackgroundResource(R.drawable.poplist_shape_grid_item);
                 viewHolder.imageViewArrow.setVisibility(View.GONE);
 
             }

@@ -18,7 +18,7 @@ public class SimplePopList extends PopList {
     private ListView mListView;
 
     public SimplePopList(Context context){
-        super(context,R.layout.simple_poplist);
+        super(context,R.layout.poplist_simple_poplist);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class SimplePopList extends PopList {
             ViewHolder viewHolder = null;
             if (convertView == null){
                 viewHolder = new ViewHolder();
-                convertView = LayoutInflater.from(mContext).inflate(R.layout.item_simple_poplist,null);
+                convertView = LayoutInflater.from(mContext).inflate(R.layout.poplist_item_simple_poplist,null);
                 viewHolder.title = (TextView) convertView.findViewById(R.id.tv_title_item_poplist);
                 convertView.setTag(viewHolder);
             }else{
