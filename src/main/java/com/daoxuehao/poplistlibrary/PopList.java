@@ -26,6 +26,7 @@ public abstract class PopList {
     protected AdapterView.OnItemClickListener mOnItemClickListener;
 
     protected PopAdapter mPopAdapter;
+    private PopupWindow.OnDismissListener mOnDismissListener;
 
     public PopList(Context context,int layout){
         mContext = context;
@@ -53,6 +54,15 @@ public abstract class PopList {
         };
         mPopupWindow = new PopupWindow(mContentView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
+        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+
+                if (mOnDismissListener!=null){
+                    mOnDismissListener.onDismiss();
+                }
+            }
+        });
         mPopupWindow.setFocusable(true);
         mPopupWindow.setOutsideTouchable(true);
         mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
@@ -75,6 +85,10 @@ public abstract class PopList {
         return this;
     }
 
+    public PopList addDismissListener(PopupWindow.OnDismissListener onDismissListener){
+        mOnDismissListener = onDismissListener;
+        return  this;
+    }
     public PopList setOnChoseListener(OnChoseListener choseListener){
         mOnChoseListener = choseListener;
         return this;
