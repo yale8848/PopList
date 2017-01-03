@@ -1,8 +1,10 @@
 package com.daoxuehao.poplistlibrary;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,7 +83,14 @@ public abstract class PopList {
     }
 
     public PopList show(View parent){
-        mPopupWindow.showAsDropDown(parent);
+
+        if (android.os.Build.VERSION.SDK_INT >=24) {
+            int[] a = new int[2];
+            parent.getLocationInWindow(a);
+            mPopupWindow.showAtLocation(((Activity) mContext).getWindow().getDecorView(),Gravity.NO_GRAVITY, 0 , a[1]+parent.getHeight());
+        } else{
+           mPopupWindow.showAsDropDown(parent);
+        }
         return this;
     }
 
