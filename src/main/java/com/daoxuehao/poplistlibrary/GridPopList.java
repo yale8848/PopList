@@ -16,8 +16,17 @@ import android.widget.TextView;
 public class GridPopList extends PopList {
 
     private GridView mGridView;
+    private boolean mIsRound = false;
     public GridPopList(Context context){
         super(context, R.layout.poplist_grid_poplist);
+    }
+
+    public boolean isRound() {
+        return mIsRound;
+    }
+
+    public void setRound(boolean round) {
+        mIsRound = round;
     }
 
     @Override
@@ -42,6 +51,9 @@ public class GridPopList extends PopList {
                 convertView = LayoutInflater.from(mContext).inflate(R.layout.poplist_item_grid_poplist,null);
                 viewHolder.title = (TextView) convertView.findViewById(R.id.tv_item_grid_poplist);
                 viewHolder.imageViewArrow = (ImageView) convertView.findViewById(R.id.iv_grid_arrow);
+                if (mIsRound){
+                    viewHolder.imageViewArrow.setVisibility(View.GONE);
+                }
                 convertView.setTag(viewHolder);
             }else{
                 viewHolder = (ViewHolder) convertView.getTag();
@@ -50,11 +62,22 @@ public class GridPopList extends PopList {
 
             if (mData.get(position).equals(mFocusData)){
                 viewHolder.title.setTextColor(mFocusColor);
-                viewHolder.title.setBackgroundResource(R.drawable.poplist_shape_grid_item_focus);
-                viewHolder.imageViewArrow.setVisibility(View.VISIBLE);
+
+                int res = R.drawable.poplist_shape_grid_item_focus;
+                if (mIsRound){
+                    res = R.drawable.poplist_shape_grid_item_focus_r;
+                }else{
+                    viewHolder.imageViewArrow.setVisibility(View.VISIBLE);
+                }
+                viewHolder.title.setBackgroundResource(res);
+
             }else{
                 viewHolder.title.setTextColor(Color.BLACK);
-                viewHolder.title.setBackgroundResource(R.drawable.poplist_shape_grid_item);
+                int res = R.drawable.poplist_shape_grid_item;
+                if (mIsRound){
+                    res = R.drawable.poplist_shape_grid_item_r;
+                }
+                viewHolder.title.setBackgroundResource(res);
                 viewHolder.imageViewArrow.setVisibility(View.GONE);
 
             }

@@ -33,6 +33,8 @@ public abstract class PopList {
     public PopList(Context context,int layout){
         mContext = context;
 
+        mFocusColor = context.getResources().getColor(R.color.focus_color);
+
         mContentView = LayoutInflater.from(context).inflate(layout,null);
         mContentView.setOnClickListener(new View.OnClickListener() {
             @Override
