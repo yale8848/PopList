@@ -109,7 +109,7 @@ public abstract class PopList {
         return this;
     }
     public interface OnChoseListener{
-        public void chose(int index,String data);
+        void chose(int index,String data);
     }
     public PopList setFocusData(String focus){
         mFocusData = focus;
@@ -117,13 +117,8 @@ public abstract class PopList {
         return this;
     }
     class PopAdapter extends BaseAdapter {
-        //List<String> mData = null;
-        //private Context mContext;
         private  BaseAdapterBindView mBaseAdapterBindView;
         public PopAdapter(BaseAdapterBindView baseAdapterBindView){
-          //  mContext  = context;
-         //   mData = data;
-
             mBaseAdapterBindView = baseAdapterBindView;
         }
         @Override
@@ -150,6 +145,6 @@ public abstract class PopList {
     }
 
     interface  BaseAdapterBindView{
-        public View getView(int position, View convertView, ViewGroup parent);
+         View getView(int position, View convertView, ViewGroup parent);
     }
 }

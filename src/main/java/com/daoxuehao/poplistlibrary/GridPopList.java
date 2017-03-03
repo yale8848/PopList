@@ -2,6 +2,7 @@ package com.daoxuehao.poplistlibrary;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ public class GridPopList extends PopList {
     protected void initView() {
         mGridView = (GridView) mContentView.findViewById(R.id.grid_poplist);
         mGridView.setOnItemClickListener(mOnItemClickListener);
+        mGridView.setSelector(new ColorDrawable(Color.TRANSPARENT));
     }
 
     @Override
