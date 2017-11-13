@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.PopupWindow;
@@ -89,6 +91,18 @@ public abstract class PopList {
         if (android.os.Build.VERSION.SDK_INT >=24) {
             int[] a = new int[2];
             parent.getLocationInWindow(a);
+
+            if (Build.VERSION.SDK_INT == 25) {//7.1
+                WindowManager wm = (WindowManager) mPopupWindow.getContentView().getContext().getSystemService(Context.WINDOW_SERVICE);
+                int screenHeight = wm.getDefaultDisplay().getHeight();
+                /*
+                /*
+                 * PopupWindow height for match_parent,
+                 * will occupy the entire screen, it needs to do special treatment in Android 7.1
+                */
+                mPopupWindow.setHeight(screenHeight - a[1] - parent.getHeight());
+            }
+
             mPopupWindow.showAtLocation(((Activity) mContext).getWindow().getDecorView(),Gravity.NO_GRAVITY, 0 , a[1]+parent.getHeight());
         } else{
            mPopupWindow.showAsDropDown(parent);
