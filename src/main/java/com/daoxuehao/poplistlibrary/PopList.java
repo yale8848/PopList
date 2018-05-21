@@ -1,15 +1,13 @@
 package com.daoxuehao.poplistlibrary;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.PopupWindow;
@@ -19,11 +17,11 @@ import java.util.List;
 /**
  * Created by Yale on 2016/8/3.
  */
-public abstract class PopList {
+public abstract class PopList<T> {
     protected PopupWindow mPopupWindow;
     protected Context mContext;
-    protected List<String> mData;
-    protected String mFocusData="";
+    protected List<T> mData;
+    protected T mFocusData=null;
     protected OnChoseListener mOnChoseListener;
     protected int mFocusColor = Color.BLACK;
     protected View mContentView;
@@ -58,7 +56,7 @@ public abstract class PopList {
                 mPopupWindow.dismiss();
             }
         };
-        mPopupWindow = new PopupWindow(mContentView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        mPopupWindow = new PopupWindow(mContentView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -76,40 +74,38 @@ public abstract class PopList {
 
         initView();
 
-
+    }
+    public PopupWindow getPopupWindow(){
+        return mPopupWindow;
     }
     protected abstract void initView();
     protected abstract void bindAdapter();
-    public   PopList setData(List<String> data){
+    public  PopList setData(List<T> data){
         mData = data;
         bindAdapter();
         return this;
     }
-
+    public void showAsDropDown(final View anchor, final int xoff, final int yoff) {
+        if (Build.VERSION.SDK_INT >= 24) {
+            Rect visibleFrame = new Rect();
+            anchor.getGlobalVisibleRect(visibleFrame);
+            int height = anchor.getResources().getDisplayMetrics().heightPixels - visibleFrame.bottom;
+            mPopupWindow.setHeight(height);
+            mPopupWindow.showAsDropDown(anchor, xoff, yoff);
+        } else {
+            mPopupWindow.showAsDropDown(anchor, xoff, yoff);
+        }
+    }
     public PopList show(View parent){
 
-        if (android.os.Build.VERSION.SDK_INT >=24) {
-            int[] a = new int[2];
-            parent.getLocationInWindow(a);
-
-            if (Build.VERSION.SDK_INT == 25) {//7.1
-                WindowManager wm = (WindowManager) mPopupWindow.getContentView().getContext().getSystemService(Context.WINDOW_SERVICE);
-                int screenHeight = wm.getDefaultDisplay().getHeight();
-                /*
-                /*
-                 * PopupWindow height for match_parent,
-                 * will occupy the entire screen, it needs to do special treatment in Android 7.1
-                */
-                mPopupWindow.setHeight(screenHeight - a[1] - parent.getHeight());
-            }
-
-            mPopupWindow.showAtLocation(((Activity) mContext).getWindow().getDecorView(),Gravity.NO_GRAVITY, 0 , a[1]+parent.getHeight());
-        } else{
-           mPopupWindow.showAsDropDown(parent);
-        }
+        showAsDropDown(parent,0,0);
         return this;
     }
+    public PopList show(View parent, int xoff,  int yoff){
 
+        showAsDropDown(parent,xoff,yoff);
+        return this;
+    }
     public PopList addDismissListener(PopupWindow.OnDismissListener onDismissListener){
         mOnDismissListener = onDismissListener;
         return  this;
@@ -122,15 +118,15 @@ public abstract class PopList {
         mFocusColor = color;
         return this;
     }
-    public interface OnChoseListener{
-        void chose(int index,String data);
+    public interface OnChoseListener<T>{
+        void chose(int index,T data);
     }
-    public PopList setFocusData(String focus){
+    public PopList setFocusData(T focus){
         mFocusData = focus;
         mPopAdapter.notifyDataSetChanged();
         return this;
     }
-    class PopAdapter extends BaseAdapter {
+    public class PopAdapter extends BaseAdapter {
         private  BaseAdapterBindView mBaseAdapterBindView;
         public PopAdapter(BaseAdapterBindView baseAdapterBindView){
             mBaseAdapterBindView = baseAdapterBindView;
@@ -158,7 +154,7 @@ public abstract class PopList {
 
     }
 
-    interface  BaseAdapterBindView{
+    public interface  BaseAdapterBindView{
          View getView(int position, View convertView, ViewGroup parent);
     }
 }

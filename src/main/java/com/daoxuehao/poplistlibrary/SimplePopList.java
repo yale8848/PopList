@@ -12,7 +12,7 @@ import android.widget.TextView;
 /**
  * Created by Yale on 2016/7/26.
  */
-public class SimplePopList extends PopList {
+public class SimplePopList extends PopList<String> {
 
 
     private ListView mListView;

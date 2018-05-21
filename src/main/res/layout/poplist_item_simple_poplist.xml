@@ -12,6 +12,6 @@
         android:layout_gravity="center_horizontal"
         android:textSize="17sp"
         android:padding="10dp"
-        android:text="adada"/>
+        android:text=""/>
 
 </LinearLayout>

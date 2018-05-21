@@ -14,7 +14,7 @@ import android.widget.TextView;
 /**
  * Created by Yale on 2016/8/3.
  */
-public class GridPopList extends PopList {
+public class GridPopList extends PopList<String> {
 
     private GridView mGridView;
     private boolean mIsRound = false;
